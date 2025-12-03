@@ -9,7 +9,7 @@ tickers = ["AAPL", "GOOG", "MSFT", "NVDA"]
 print(f"Downloading data for: {tickers}...")
 
 # 2. Download historical data (e.g., from 2020 to 2023)
-data = yf.download(tickers, start="2020-01-01", end="2023-01-01")['Adj Close']
+data = yf.download(tickers, start="2020-01-01", end="2023-01-01")['Close']
 
 # 3. Calculate the two key Physics inputs
 # Log-returns are standard in finance for stability
