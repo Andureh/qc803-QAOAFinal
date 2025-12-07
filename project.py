@@ -9,7 +9,6 @@ from qiskit_algorithms.optimizers import COBYLA
 from qiskit_finance.applications.optimization import PortfolioOptimization
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 
-
 def get_portfolio_data(tickers, start_date, end_date):
     """
     Fetches historical data and calculates expected return (mu) and covariance (sigma).
