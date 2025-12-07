@@ -93,13 +93,12 @@ def create_portfolio_qp(mu, sigma, q=0.5, budget=None):
         budget = num_assets // 2
         
     # Set parameter to scale the budget penalty term
-    # (Used later when converting to QUBO)
     penalty = num_assets 
-
+    
     # Create the portfolio instance
     portfolio = PortfolioOptimization(
-        expected_returns=mu, 
-        covariances=sigma, 
+        expected_returns=mu.values, 
+        covariances=sigma.values, 
         risk_factor=q, 
         budget=budget
     )
@@ -130,46 +129,20 @@ def print_result(result,portfolio):
         value = portfolio.to_quadratic_program().objective.evaluate(x)
         print("%10s\t%.4f\t\t%.4f" % (x, value, v))
 
-#Test
-tickers = ["AAPL", "GOOG", "MSFT", "AMZN"]
+#Parameters
+tickers = ["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]
 start_date = "2023-01-01"
 end_date = "2024-01-01"
+n_stocks = 4
+risk = 0.2
 
 
 mu_raw, sigma_raw, prices = get_portfolio_data(tickers, start_date, end_date)
+
 #Normalization
 mu_norm, sigma_norm = normalize_data(mu_raw, sigma_raw)
 
-'''
-print("Normalized Expected Returns (mu):\n", mu_norm)
-print("\nNormalized Covariance (sigma):\n", sigma_norm)
-print("Prices: ", prices)
-
-#Plot the covariance matrix
-
-plt.imshow(sigma_norm, interpolation='nearest')
-plt.colorbar()
-plt.title("Normalized Covariance Matrix")
-plt.show()
-
-# 1. Create simple Dummy Data (3 assets)
-# Returns (mu): Asset 0 earns 10%, Asset 1 earns 50%, Asset 2 earns 20%
-mu_test = np.array([0.1, 0.5, 0.2])
-
-# Covariance (sigma): How they move together (3x3 matrix)
-# Diagonal (0.9, 0.5, 0.3) represents the risk (variance) of each asset.
-sigma_test = np.array([
-    [0.9, 0.1, 0.0],
-    [0.1, 0.5, 0.1],
-    [0.0, 0.1, 0.3]
-])
-
-# 2. Run your function
-# We ask for a budget of 2 assets and a risk factor of 0.5
-qp_test, penalty_test = create_portfolio_qp(mu_test, sigma_test, q=0.5, budget=2)
-'''
-
-qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_norm,sigma_norm,q=0.5,budget=2)
+qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_norm,sigma_norm,q=risk,budget=n_stocks)
 
 # Exact Solver Implementation
 exact_mes = NumPyMinimumEigensolver()
