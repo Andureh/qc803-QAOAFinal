@@ -8,7 +8,6 @@ from qiskit_algorithms import NumPyMinimumEigensolver, QAOA
 from qiskit_algorithms.optimizers import COBYLA
 from qiskit_finance.applications.optimization import PortfolioOptimization
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
-from qiskit_algorithms.utils import algorithm_globals
 
 def get_portfolio_data(tickers, start_date, end_date):
     """
@@ -21,7 +20,6 @@ def get_portfolio_data(tickers, start_date, end_date):
     #Calculate daily returns (percentage change)
     daily_returns = data.pct_change().dropna()
     
-    print(daily_returns)
     #Calculate Mean Vector (mu) and Covariance Matrix (sigma)
     '''252 because if not, mu is the average daily returns and overall we want annual returns because it makes more sense.
     So just multiply the average daily returns by the 252 annual trading days'''
