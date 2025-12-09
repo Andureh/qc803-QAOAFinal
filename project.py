@@ -42,37 +42,6 @@ def normalize_data(mu, sigma):
     
     return mu_normalized, sigma_normalized
 
-def hamiltonean_creator(mu, sigma, budget, risk_factor=1.0):
-    """
-    THIS FUNCTION WAS JUST SOMETHING I DID TO TRY AND UNDERSTAND THE "CREATE PORTFOLIO" FUNCTION, IS LIKE A MANUAL VERSION OF THAT ONE
-
-    1. Creates the class
-    2. Adds parameters (Variables, Objective, Constraints)
-    3. Calculates Hamiltonian (The Output)
-    """
-    
-    #Create the Class
-    qp = QuadraticProgram("Portfolio Optimization")
-    
-    #Add Parameters
-    for i in range(len(mu)):
-        qp.binary_var(name=f'stock_{i}')
-        
-    #Add the "Score" (Objective Function)
-    #logic: Minimize (Risk - Return)
-    #linear=Return (negative because we minimize), quadratic=Risk matrix
-    qp.minimize(linear=-mu, quadratic=risk_factor * sigma)
-    
-    #Add the "Rule" (Constraint)
-    linear_dict = {f'stock_{i}': 1 for i in range(len(mu))}
-    
-    qp.linear_constraint(linear=linear_dict, sense='==', rhs=budget, name='budget')
-
-    #Calculate the Hamiltonian
-    hamiltonian, offset = qp.to_ising()
-    
-    return hamiltonian
-
 def create_portfolio_qp(mu, sigma, q=0.5, budget=None):
     """
     Creates a Quadratic Program for the Portfolio Optimization problem.
@@ -130,17 +99,19 @@ def print_result(result,portfolio):
         print("%10s\t%.4f\t\t%.4f" % (x, value, v))
 
 #Parameters
-tickers = ["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]
+tickers = ["AAPL", "GOOG", "MSFT","AMZN","META"]#["MRNA", "PFE","PYPL","ENPH", "SEDG"]+["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]#+["MRNA", "PFE", "ENPH", "SEDG", "WBA", "PYPL"]
 start_date = "2023-01-01"
 end_date = "2024-01-01"
-n_stocks = 4
+n_stocks = len(tickers)//2
 risk = 0.2
 
 
 mu_raw, sigma_raw, prices = get_portfolio_data(tickers, start_date, end_date)
 
 #Normalization
+#print("Expected Returns (mu):\n", mu_raw)
 mu_norm, sigma_norm = normalize_data(mu_raw, sigma_raw)
+
 
 qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_norm,sigma_norm,q=risk,budget=n_stocks)
 
@@ -159,7 +130,8 @@ algorithm_globals.random_seed = 1234
 cobyla = COBYLA()
 cobyla.set_options(maxiter=250)
 qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=3)
-qaoa = MinimumEigenOptimizer(qaoa_mes)
+qaoa = MinimumEigenOptimizer(qaoa_mes, penalty=20)
 result = qaoa.solve(qp_realdata)
+
 
 print_result(result,portfolio_qp)
