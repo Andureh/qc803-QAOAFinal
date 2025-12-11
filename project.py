@@ -38,7 +38,8 @@ def normalize_data(mu, sigma):
     mu_normalized = (mu - mu_min) / (mu_max - mu_min) #Normalization between [0,1]
 
     sigma_max = sigma.max().max()
-    sigma_normalized = sigma / sigma_max #Normalization of sigma (the covariance matrix)
+    sigma_min = sigma.min().min()
+    sigma_normalized = (sigma-sigma_min) / (sigma_max-sigma_min) #Normalization of sigma (the covariance matrix)
     
     return mu_normalized, sigma_normalized
 
@@ -93,14 +94,14 @@ def create_portfolio_qp(mu, sigma, q=0.5, budget=None):
         budget = num_assets // 2
         
     # Set parameter to scale the budget penalty term
-    penalty = num_assets 
+    penalty = num_assets
     
     # Create the portfolio instance
     portfolio = PortfolioOptimization(
         expected_returns=mu.values, 
         covariances=sigma.values, 
-        risk_factor=q, 
-        budget=budget
+        risk_factor=q,
+        budget=budget,
     )
     
     # Convert to Qiskit's QuadraticProgram format
@@ -129,27 +130,29 @@ def print_result(result,portfolio):
         value = portfolio.to_quadratic_program().objective.evaluate(x)
         print("%10s\t%.4f\t\t%.4f" % (x, value, v))
 
+def sample_mean():
+    return 0
 #Parameters
-tickers = ["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]
+tickers = ["AAPL", "GOOG", "MSFT", "TSLA","ORCL", "ADBE", "CRM", "PYPL"]
 start_date = "2023-01-01"
 end_date = "2024-01-01"
-n_stocks = 4
-risk = 0.2
+n_stocks = 5
+risk = 0.5
 
 
 mu_raw, sigma_raw, prices = get_portfolio_data(tickers, start_date, end_date)
 
 #Normalization
-mu_norm, sigma_norm = normalize_data(mu_raw, sigma_raw)
+#mu_norm, sigma_norm = normalize_data(mu_raw, sigma_raw)
 
-qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_norm,sigma_norm,q=risk,budget=n_stocks)
+qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_raw,sigma_raw,q=risk,budget=n_stocks)
 
 # Exact Solver Implementation
 exact_mes = NumPyMinimumEigensolver()
 exact_eigensolver = MinimumEigenOptimizer(exact_mes)
 
 result = exact_eigensolver.solve(qp_realdata)
-
+print("Exact Solver\n")
 print_result(result,portfolio_qp)
 
 
@@ -157,9 +160,10 @@ print_result(result,portfolio_qp)
 algorithm_globals.random_seed = 1234
 
 cobyla = COBYLA()
-cobyla.set_options(maxiter=250)
-qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=3)
+cobyla.set_options(maxiter=1000)
+qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=10)
 qaoa = MinimumEigenOptimizer(qaoa_mes)
 result = qaoa.solve(qp_realdata)
 
+print("QAOA\n")
 print_result(result,portfolio_qp)
