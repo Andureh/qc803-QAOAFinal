@@ -1,0 +1,16 @@
+#Parameters
+tickers = ["AAPL", "GOOG", "MSFT","AMZN","META"]
+start_date = "2023-01-01"
+end_date = "2024-01-01"
+n_stocks = len(tickers)//2
+risk = 0.2
+penalty = 20
+
+
+
+tickers = ["AAPL", "GOOG", "MSFT","AMZN"]
+start_date = "2023-01-01"
+end_date = "2024-01-01"
+n_stocks = 2
+risk = 0.2
+penalty=penalty
