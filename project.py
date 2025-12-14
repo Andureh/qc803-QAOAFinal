@@ -99,8 +99,7 @@ def print_result(result,portfolio):
         value = portfolio.to_quadratic_program().objective.evaluate(x)
         print("%10s\t%.4f\t\t%.4f" % (x, value, v))
 
-def sample_mean():
-    return 0
+
 #Parameters
 tickers = ["AAPL", "GOOG", "MSFT","AMZN","META"]#["MRNA", "PFE","PYPL","ENPH", "SEDG"]+["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]#+["MRNA", "PFE", "ENPH", "SEDG", "WBA", "PYPL"]
 start_date = "2023-01-01"
