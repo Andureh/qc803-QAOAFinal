@@ -70,7 +70,7 @@ def run_qaoa(num_assets, q, budget, penalty, p):
     mu_norm, sigma_norm = normalize_data(mu,sigma)
 
     portfolio = PortfolioOptimization(
-        expected_returns=mu, covariances=sigma, risk_factor=q, budget=budget
+        expected_returns=mu_norm, covariances=sigma_norm, risk_factor=q, budget=budget
     )
     qp = portfolio.to_quadratic_program()
 
@@ -84,7 +84,7 @@ def run_qaoa(num_assets, q, budget, penalty, p):
 
     
     #print_result(result,portfolio)
-    arat = get_aproximation_ratio(result,portfolio)
+    arat = get_aproximation_ratio(result,mu_norm,sigma_norm,q,budget)
     print(f"The aproximation ratio is {arat:.4f}")
     
 
@@ -92,11 +92,11 @@ def run_qaoa(num_assets, q, budget, penalty, p):
 def main():
     parser = argparse.ArgumentParser(description="Run QAOA portfolio optimization")
 
-    parser.add_argument("--num_assets", type=int, default=10,
+    parser.add_argument("--n", type=int, default=10,
                         help="Number of assets (qubits)")
     parser.add_argument("--q", type=float, default=0.5,
                         help="Risk factor")
-    parser.add_argument("--budget", type=int, default=5,
+    parser.add_argument("--budget", type=int, default=2,
                         help="Budget constraint")
     parser.add_argument("--penalty", type=float, default=10,
                         help="restriction penalty (lambda)")
@@ -106,7 +106,7 @@ def main():
     args = parser.parse_args()
 
     run_qaoa(
-        num_assets=args.num_assets,
+        num_assets=args.n,
         q=args.q,
         budget=args.budget,
         penalty=args.penalty,

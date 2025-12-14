@@ -11,13 +11,26 @@ from qiskit_optimization.algorithms import MinimumEigenOptimizer, MinimumEigenOp
 from qiskit_algorithms.utils import algorithm_globals
 
 
-def get_aproximation_ratio (solutions: MinimumEigenOptimizationResult ,portfolio: PortfolioOptimization):
+def get_aproximation_ratio (solutions: MinimumEigenOptimizationResult ,mu: np.array, sigma:np.array,q:float,budget:int):
     """Computes the aproximation ratio of a given solution of a qaoa"""
     #Compute the best result using the exact solver
-    qp = portfolio.to_quadratic_program()
+    portfolio_min = PortfolioOptimization(
+        expected_returns=mu, covariances=sigma, risk_factor=q, budget=budget
+    )
+    qp_min = portfolio_min.to_quadratic_program()
     exact_mes = NumPyMinimumEigensolver()
     exact_eigensolver = MinimumEigenOptimizer(exact_mes)
-    result = exact_eigensolver.solve(qp)
+    result_min = exact_eigensolver.solve(qp_min)
+    #Same but to obtain the maximum energy
+    portfolio_max = PortfolioOptimization(
+        expected_returns=-mu, covariances=-sigma, risk_factor=q, budget=budget
+    )
+    qp_max = portfolio_max.to_quadratic_program()
+    exact_eigensolver = MinimumEigenOptimizer(exact_mes)
+    result_max = exact_eigensolver.solve(qp_max)
     #Get the aproximation ratio
-    ratio = solutions.fval/result.fval
+    ratio = (result_max.fval - solutions.fval)/(result_max.fval-result_min.fval) 
+    print(result_max.fval)
+    print(result_min.fval)
+    print(solutions.fval)
     return ratio
