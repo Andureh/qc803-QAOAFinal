@@ -38,7 +38,8 @@ def normalize_data(mu, sigma):
     mu_normalized = (mu - mu_min) / (mu_max - mu_min) #Normalization between [0,1]
 
     sigma_max = sigma.max().max()
-    sigma_normalized = sigma / sigma_max #Normalization of sigma (the covariance matrix)
+    sigma_min = sigma.min().min()
+    sigma_normalized = (sigma-sigma_min) / (sigma_max-sigma_min) #Normalization of sigma (the covariance matrix)
     
     return mu_normalized, sigma_normalized
 
@@ -62,14 +63,14 @@ def create_portfolio_qp(mu, sigma, q=0.5, budget=None):
         budget = num_assets // 2
         
     # Set parameter to scale the budget penalty term
-    penalty = num_assets 
+    penalty = num_assets
     
     # Create the portfolio instance
     portfolio = PortfolioOptimization(
         expected_returns=mu.values, 
         covariances=sigma.values, 
-        risk_factor=q, 
-        budget=budget
+        risk_factor=q,
+        budget=budget,
     )
     
     # Convert to Qiskit's QuadraticProgram format
@@ -98,6 +99,7 @@ def print_result(result,portfolio):
         value = portfolio.to_quadratic_program().objective.evaluate(x)
         print("%10s\t%.4f\t\t%.4f" % (x, value, v))
 
+
 #Parameters
 tickers = ["AAPL", "GOOG", "MSFT","AMZN","META"]#["MRNA", "PFE","PYPL","ENPH", "SEDG"]+["AAPL", "GOOG", "MSFT", "TSLA","AMZN","META","NVDA","NFLX"]#+["MRNA", "PFE", "ENPH", "SEDG", "WBA", "PYPL"]
 start_date = "2023-01-01"
@@ -113,16 +115,15 @@ mu_raw, sigma_raw, prices = get_portfolio_data(tickers, start_date, end_date)
 mu_norm, sigma_norm = normalize_data(mu_raw, sigma_raw)
 
 
-qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_norm,sigma_norm,q=risk,budget=n_stocks)
+qp_realdata, penalty,portfolio_qp = create_portfolio_qp(mu_raw,sigma_raw,q=risk,budget=n_stocks)
 
 # Exact Solver Implementation
 exact_mes = NumPyMinimumEigensolver()
 exact_eigensolver = MinimumEigenOptimizer(exact_mes)
 
 result = exact_eigensolver.solve(qp_realdata)
-
+print("Exact Solver\n")
 print_result(result,portfolio_qp)
-
 
 # QAOA Implementation
 algorithm_globals.random_seed = 1234
