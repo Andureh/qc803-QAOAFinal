@@ -77,7 +77,7 @@ def run_qaoa(num_assets, q, budget, penalty, p):
     algorithm_globals.random_seed = 1234
 
     cobyla = COBYLA()
-    cobyla.set_options(maxiter=1000)         
+    cobyla.set_options(maxiter=100)         
     qaoa_mes = QAOA(sampler=Sampler(), optimizer=cobyla, reps=p)
     qaoa = MinimumEigenOptimizer(qaoa_mes,penalty)
     result = qaoa.solve(qp)

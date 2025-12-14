@@ -125,7 +125,6 @@ result = exact_eigensolver.solve(qp_realdata)
 print("Exact Solver\n")
 print_result(result,portfolio_qp)
 
-
 # QAOA Implementation
 algorithm_globals.random_seed = 1234
 
