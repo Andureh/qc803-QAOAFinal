@@ -1,5 +1,6 @@
 import numpy as np
-from qiskit.result import QuasiDistribution, MinimumEigenOptimizationResult
+from qiskit.result import QuasiDistribution
+from qiskit_optimization.algorithms import MinimumEigenOptimizationResult
 from qiskit_finance.applications.optimization import PortfolioOptimization
 
 
