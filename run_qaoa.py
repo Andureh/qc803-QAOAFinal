@@ -1,58 +1,17 @@
-import yfinance as yf
-import numpy as np
-import matplotlib.pyplot as plt
-
-from qiskit.result import QuasiDistribution
 from qiskit_aer.primitives import Sampler
 from qiskit_finance.data_providers import RandomDataProvider
-from qiskit_algorithms import NumPyMinimumEigensolver, QAOA
+from qiskit_algorithms import QAOA
 from qiskit_algorithms.optimizers import COBYLA
 from qiskit_finance.applications.optimization import PortfolioOptimization
 from qiskit_optimization.algorithms import MinimumEigenOptimizer
 from qiskit_algorithms.utils import algorithm_globals
 from metrics import get_aproximation_ratio
-import pandas as pd
+from normalize_data import normalize_data
+
 import datetime
 import argparse
 
-def normalize_data(mu, sigma):
-    """
-    Normalizes data to [0, 1] range.
-    """
-    mu_min = mu.min()
-    mu_max = mu.max()
-    mu_normalized = (mu - mu_min) / (mu_max - mu_min) #Normalization between [0,1]
-
-    sigma_max = sigma.max().max()
-    sigma_min = sigma.min().min()
-    sigma_normalized = (sigma-sigma_min) / (sigma_max-sigma_min) #Normalization of sigma (the covariance matrix)
-    
-    return mu_normalized, sigma_normalized
-
-def print_result(result,portfolio):
-    selection = result.x
-    value = result.fval
-    print("Optimal: selection {}, value {:.4f}".format(selection, value))
-
-    eigenstate = result.min_eigen_solver_result.eigenstate
-    probabilities = (
-        eigenstate.binary_probabilities()
-        if isinstance(eigenstate, QuasiDistribution)
-        else {k: np.abs(v) ** 2 for k, v in eigenstate.to_dict().items()}
-    )
-    print("\n----------------- Full result ---------------------")
-    print("selection\tvalue\t\tprobability")
-    print("---------------------------------------------------")
-    probabilities = sorted(probabilities.items(), key=lambda x: x[1], reverse=True)
-
-    for k, v in probabilities:
-        x = np.array([int(i) for i in list(reversed(k))])
-        value = portfolio.to_quadratic_program().objective.evaluate(x)
-        print("%10s\t%.4f\t\t%.4f" % (x, value, v))
-
-
 def run_qaoa(num_assets, q, budget, penalty, p):
-    # set number of assets (= number of qubits)
     
     seed = 1234
 
