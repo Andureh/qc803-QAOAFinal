@@ -13,6 +13,8 @@ import argparse
 
 def run_qaoa(num_assets, q, budget, penalty, p):
     
+    if penalty is None:
+        penalty = num_assets
     seed = 1234
 
     # Generate expected return and covariance matrix from (random) time-series
@@ -44,7 +46,7 @@ def run_qaoa(num_assets, q, budget, penalty, p):
     
     #print_result(result,portfolio)
     arat = get_aproximation_ratio(result,mu_norm,sigma_norm,q,budget)
-    print(f"The aproximation ratio is {arat:.4f}")
+    return arat
     
 
 
@@ -57,7 +59,7 @@ def main():
                         help="Risk factor")
     parser.add_argument("--budget", type=int, default=2,
                         help="Budget constraint")
-    parser.add_argument("--penalty", type=float, default=10,
+    parser.add_argument("--penalty", type=float, default=None,
                         help="restriction penalty (lambda)")
     parser.add_argument("--p", type=int, default=3,
                         help="Number of reps for the qaoa")
