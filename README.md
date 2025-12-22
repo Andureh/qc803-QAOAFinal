@@ -1,8 +1,14 @@
+Since you have moved your core logic into src/ but are keeping the analysis in the Jupyter Notebook, your README.md should serve as a guide on how to set up the environment and run that specific notebook.
+
+Here is a professional, ready-to-use template. You can copy-paste this directly into your README.md file.
+
+Markdown
+
 # QAOA Portfolio Optimization
 
 This project explores the application of the Quantum Approximate Optimization Algorithm (QAOA) to the Portfolio Optimization problem. We analyze the performance of various classical optimizers (COBYLA, SPSA, POWELL) and investigate the impact of noise, circuit depth, and penalty factors on solution quality.
 
-This repository is structured as a Python package to support the analysis performed in `project.ipynb`.
+This repository is structured as a Python package to support the analysis performed in `final_report.ipynb`.
 
 ## 📂 Project Structure
 
@@ -13,9 +19,8 @@ project_repo/
 ├── src/
 │   └── qc803_project/       # Source code package
 │       ├── __init__.py
-│       └── project.ipynb     # Core logic (Data fetching, QAOA, Solvers)
-└── final_report.pdf       # Main analysis and results (Jupyter Notebook)
-
+│       └── project.ipynb.py     # Core logic (Data fetching, QAOA, Solvers)
+└── final_report.pdf      # Main analysis and results
 Installation
 To reproduce the results, follow these steps to set up the environment.
 
@@ -25,6 +30,8 @@ Ensure you have Python 3.11 installed.
 Usage
 The entire analysis is contained within the Jupyter Notebook.
 
+Open the notebook:
+
 Key Experiments
 The notebook covers the following analyses:
 
@@ -32,7 +39,9 @@ Optimizer Comparison: Benchmarking COBYLA, SPSA, and POWELL.
 
 Noise Analysis: Testing robustness against depolarizing noise.
 
-Penalty Analysis: Analyzing the impact of constraint penalties on approximation ratios.
+Penalty Tuning: Analyzing the impact of constraint penalties on approximation ratios.
+
+Efficient Frontier: Visualizing Risk vs. Return trade-offs.
 
 Dependencies
 qiskit & qiskit-algorithms
@@ -43,10 +52,13 @@ yfinance (Real market data)
 
 matplotlib & pandas
 
-To install the necessary dependencies just install the following:
+The dependecies used can be installed by:
 pip install qiskit==1.0.1 qiskit-finance==0.4.1 qiskit-aer==0.13.3 qiskit-algorithms==0.3.0 qiskit-optimization==0.6.1 matplotlib
 
+
 Authors
-[André Gomes]
+André Gomes
 
 [Teammate 1 Name]
+
+[Teammate 2 Name]
