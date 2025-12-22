@@ -1,56 +1,52 @@
-# QC 803: Final Project Repository Template
+# QAOA Portfolio Optimization
 
-This is an optional template for the QC 803 final project based on https://packaging.python.org/en/latest/tutorials/packaging-projects/.
+This project explores the application of the Quantum Approximate Optimization Algorithm (QAOA) to the Portfolio Optimization problem. We analyze the performance of various classical optimizers (COBYLA, SPSA, POWELL) and investigate the impact of noise, circuit depth, and penalty factors on solution quality.
 
-## File Structure
-```
+This repository is structured as a Python package to support the analysis performed in `project.ipynb`.
+
+## 📂 Project Structure
+
+```text
 project_repo/
-├── pyproject.toml
-├── README.md
+├── pyproject.toml           # Project configuration and dependencies
+├── README.md                # Project documentation
 ├── src/
-│   └── example_package/
+│   └── qc803_project/       # Source code package
 │       ├── __init__.py
-│       └── example.py
-└── tests/
-    └── test_example.py
-```
+│       └── project.ipynb     # Core logic (Data fetching, QAOA, Solvers)
+└── final_report.pdf       # Main analysis and results (Jupyter Notebook)
 
-#### `pyrproject.tml`
-This is a configuration file, which you can read more about at https://packaging.python.org/en/latest/tutorials/packaging-projects/. This is primarily for specifying your build system, project metadata, and dependencies.
+Installation
+To reproduce the results, follow these steps to set up the environment.
 
+1. Prerequisite
+Ensure you have Python 3.11 installed.
 
-#### `README.md` 
-This document should clearly describe both the structure of your code and how to run it, including examples.
+Usage
+The entire analysis is contained within the Jupyter Notebook.
 
-#### `src/`
-This is the folder for your source code, which will include all of the packages that you build. For this project, you will likely just make a single package `src/project_name/` containing an `__init__.py` file and the files containing the functions, classes, etc. provided by your package.
+Key Experiments
+The notebook covers the following analyses:
 
-#### `tests/`
-This is the folder that will contain all of the unit tests that you write.
+Optimizer Comparison: Benchmarking COBYLA, SPSA, and POWELL.
 
-## Installation
+Noise Analysis: Testing robustness against depolarizing noise.
 
-Before installing, we recommend first setting up a virtual environment.
-```sh
-python -m venv .venv
-source .venv/bin/activate
-```
+Penalty Analysis: Analyzing the impact of constraint penalties on approximation ratios.
 
-Then, you can install the project package using `pip` as shown below.
-```sh
-pip install .
-```
+Dependencies
+qiskit & qiskit-algorithms
 
-## Tests
-Unit tests can be run using `pytest` (see https://docs.pytest.org/en/stable/ for more details), which should output something like the following.
-```
-======================================== test session starts ========================================
-platform darwin -- Python 3.14.0, pytest-9.0.1, pluggy-1.6.0
-rootdir: /path/to/qc803-project-repo-template
-configfile: pyproject.toml
-collected 1 item                                                                                    
+qiskit-optimization & qiskit-finance
 
-tests/test_example.py .                                                                       [100%]
+yfinance (Real market data)
 
-========================================= 1 passed in 0.00s =========================================
-```
+matplotlib & pandas
+
+To install the necessary dependencies just install the following:
+pip install qiskit==1.0.1 qiskit-finance==0.4.1 qiskit-aer==0.13.3 qiskit-algorithms==0.3.0 qiskit-optimization==0.6.1 matplotlib
+
+Authors
+[André Gomes]
+
+[Teammate 1 Name]

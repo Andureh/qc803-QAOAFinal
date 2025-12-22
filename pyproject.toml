@@ -3,20 +3,28 @@ requires = ["hatchling >= 1.26"]
 build-backend = "hatchling.build"
 
 [project]
-name = "example"
-version = "0.0.1"
-description = "This is an example project."
+name = "qc803_project"
+version = "0.1.0"
+description = "QAOA Portfolio Optimization for QC 803 Final Project"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 authors = [
-    {name = "Example", email = "example@example.com"},
+    {name = "André Gomes", email = "anmir25@student.sdu.dk"},
+    {name = "Teammate One", email = "teammate1@example.com"}
 ]
-keywords = ["example"]
+keywords = ["quantum", "qiskit", "qaoa", "finance"]
 
 dependencies = [
-  "qiskit",
-  "pytest"
+    "qiskit==1.0.1",
+    "qiskit-finance==0.4.1",
+    "qiskit-aer==0.13.3",
+    "qiskit-algorithms==0.3.0",
+    "qiskit-optimization==0.6.1",
+    "matplotlib",
+    "pandas",
+    "yfinance",
+    "numpy"
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/example_package"]
+packages = ["src/project.ipynb"]
