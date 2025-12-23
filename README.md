@@ -1,9 +1,3 @@
-Since you have moved your core logic into src/ but are keeping the analysis in the Jupyter Notebook, your README.md should serve as a guide on how to set up the environment and run that specific notebook.
-
-Here is a professional, ready-to-use template. You can copy-paste this directly into your README.md file.
-
-Markdown
-
 # QAOA Portfolio Optimization
 
 This project explores the application of the Quantum Approximate Optimization Algorithm (QAOA) to the Portfolio Optimization problem. We analyze the performance of various classical optimizers (COBYLA, SPSA, POWELL) and investigate the impact of noise, circuit depth, and penalty factors on solution quality.
@@ -21,29 +15,13 @@ project_repo/
 │       ├── __init__.py
 │       └── project.ipynb.py     # Core logic (Data fetching, QAOA, Solvers)
 └── final_report.pdf      # Main analysis and results
-Installation
-To reproduce the results, follow these steps to set up the environment.
+```
 
+# Installation
 1. Prerequisite
 Ensure you have Python 3.11 installed.
 
-Usage
-The entire analysis is contained within the Jupyter Notebook.
-
-Open the notebook:
-
-Key Experiments
-The notebook covers the following analyses:
-
-Optimizer Comparison: Benchmarking COBYLA, SPSA, and POWELL.
-
-Noise Analysis: Testing robustness against depolarizing noise.
-
-Penalty Tuning: Analyzing the impact of constraint penalties on approximation ratios.
-
-Efficient Frontier: Visualizing Risk vs. Return trade-offs.
-
-Dependencies
+## Dependencies
 qiskit & qiskit-algorithms
 
 qiskit-optimization & qiskit-finance
@@ -55,10 +33,33 @@ matplotlib & pandas
 The dependecies used can be installed by:
 pip install qiskit==1.0.1 qiskit-finance==0.4.1 qiskit-aer==0.13.3 qiskit-algorithms==0.3.0 qiskit-optimization==0.6.1 matplotlib
 
+# Usage
+The entire analysis is contained within the Jupyter Notebook (project.ipynb).
+
+# Key Experiments
+The notebook covers the following analyses:
+
+QAOA vs Greedy Algorithm: Benchmarking COBYLA, SPSA, and POWELL vs the Greedy Algorithm
+
+Optimizer Analysis: Benchmarking COBYLA, SPSA, and POWELL vs the Greedy Algorithm
+
+Depth Analysis: Observing the effect of the Depth in the QAOA algorithm
+
+Penalty Analysis: Analyzing the impact of constraint penalties on approximation ratios.
+
+Noise Analysis: Testing robustness against depolarizing noise.
+
+
+# Dependencies
+qiskit & qiskit-algorithms
+
+qiskit-optimization & qiskit-finance
+
+yfinance (Real market data)
+
+matplotlib & pandas
 
 Authors
 André Gomes
 
-[Teammate 1 Name]
-
-[Teammate 2 Name]
+Martín Marcuello
