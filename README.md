@@ -13,7 +13,7 @@ project_repo/
 ├── src/
 │   └── qc803_project/       # Source code package
 │       ├── __init__.py
-│       └── project.ipynb.py     # Core logic (Data fetching, QAOA, Solvers)
+│       └── project.ipynb     # Core logic (Data fetching, QAOA, Solvers)
 └── final_report.pdf      # Main analysis and results
 ```
 
@@ -49,17 +49,7 @@ Penalty Analysis: Analyzing the impact of constraint penalties on approximation 
 
 Noise Analysis: Testing robustness against depolarizing noise.
 
-
-# Dependencies
-qiskit & qiskit-algorithms
-
-qiskit-optimization & qiskit-finance
-
-yfinance (Real market data)
-
-matplotlib & pandas
-
-Authors
+# Authors
 André Gomes
 
 Martín Marcuello
