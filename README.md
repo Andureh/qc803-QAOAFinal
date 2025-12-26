@@ -4,7 +4,7 @@ This project explores the application of the Quantum Approximate Optimization Al
 
 This repository is structured as a Python package to support the analysis performed in `final_report.ipynb`.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 project_repo/
