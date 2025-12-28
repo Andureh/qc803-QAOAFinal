@@ -14,7 +14,7 @@ project_repo/
 │   └── qc803_project/       # Source code package
 │       ├── __init__.py
 │       └── project.ipynb     # Core logic (Data fetching, QAOA, Solvers)
-└── final_report.pdf      # Main analysis and results
+└── QC803FinalReport.pdf      # Main analysis and results
 ```
 
 # Installation
