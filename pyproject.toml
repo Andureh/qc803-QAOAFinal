@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 authors = [
     {name = "André Gomes", email = "anmir25@student.sdu.dk"},
-    {name = "Teammate One", email = "teammate1@example.com"}
+    {name = "Martín Marcuello", email = "mmarc25@student.sdu.dk"}
 ]
 keywords = ["quantum", "qiskit", "qaoa", "finance"]
 
